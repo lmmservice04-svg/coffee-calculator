@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>咖啡販賣機加盟 — 回本試算</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #F5F0E8;
+    --surface: #FFFDF8;
+    --border: #D6CCBA;
+    --text: #1A1612;
+    --muted: #7A7060;
+    --accent: #3D2B1F;
+    --green: #2C5F3A;
+    --green-light: #EAF2EC;
+    --red: #8B2E2E;
+    --red-light: #F5EAEA;
+    --amber: #8B5E00;
+    --amber-light: #FDF3DC;
+    --mono: 'DM Mono', monospace;
+    --serif: 'Noto Serif TC', serif;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--serif);
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  header {
+    background: var(--accent);
+    color: #F5F0E8;
+    padding: 2.5rem 2rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::before {
+    content: '☕';
+    position: absolute;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 6rem;
+    opacity: 0.08;
+    line-height: 1;
+  }
+
+  header h1 {
+    font-size: clamp(1.3rem, 4vw, 1.8rem);
+    font-weight: 600;
+    letter-spacing: .02em;
+    line-height: 1.3;
+  }
+
+  header p {
+    margin-top: .5rem;
+    font-size: .85rem;
+    opacity: .65;
+    font-family: var(--mono);
+  }
+
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 4rem;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 560px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+
+  .card-title {
+    font-size: .7rem;
+    font-family: var(--mono);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.2rem;
+    padding-bottom: .6rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .slider-group { margin-bottom: 1.2rem; }
+
+  .slider-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: .4rem;
+  }
+
+  .slider-label {
+    font-size: .8rem;
+    color: var(--muted);
+    font-family: var(--mono);
+  }
+
+  .slider-value {
+    font-size: .9rem;
+    font-weight: 500;
+    font-family: var(--mono);
+    color: var(--accent);
+  }
+
+  input[type=range] {
+    width: 100%;
+    height: 4px;
+    -webkit-appearance: none;
+    background: var(--border);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+    transition: transform .15s;
+  }
+
+  input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: .75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .metric {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.1rem;
+  }
+
+  .metric.highlight {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .metric .m-label {
+    font-size: .65rem;
+    font-family: var(--mono);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: .3rem;
+  }
+
+  .metric.highlight .m-label { color: rgba(245,240,232,.55); }
+
+  .metric .m-value {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text);
+    font-family: var(--mono);
+    line-height: 1.1;
+  }
+
+  .metric.highlight .m-value { color: #F5F0E8; }
+
+  .metric .m-sub {
+    font-size: .65rem;
+    color: var(--muted);
+    font-family: var(--mono);
+    margin-top: .2rem;
+  }
+
+  .metric.highlight .m-sub { color: rgba(245,240,232,.45); }
+
+  .alert {
+    border-radius: 8px;
+    padding: .75rem 1rem;
+    font-size: .8rem;
+    font-family: var(--mono);
+    margin-bottom: 1rem;
+    display: none;
+  }
+
+  .alert.warn { background: var(--amber-light); color: var(--amber); border: 1px solid #E0C070; }
+  .alert.danger { background: var(--red-light); color: var(--red); border: 1px solid #D09090; }
+  .alert.good { background: var(--green-light); color: var(--green); border: 1px solid #90C0A0; }
+
+  .chart-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .chart-title {
+    font-size: .7rem;
+    font-family: var(--mono);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+    padding-bottom: .6rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .legend {
+    display: flex;
+    gap: 1rem;
+    font-size: .65rem;
+  }
+
+  .legend span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--muted);
+  }
+
+  .legend i {
+    display: inline-block;
+    width: 20px;
+    height: 2px;
+    border-radius: 1px;
+  }
+
+  .canvas-wrap { position: relative; height: 240px; }
+
+  .scenario-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: .75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  @media (max-width: 480px) {
+    .scenario-grid { grid-template-columns: 1fr; }
+  }
+
+  .scenario-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: .7rem .8rem;
+    cursor: pointer;
+    text-align: left;
+    font-family: var(--serif);
+    transition: all .15s;
+  }
+
+  .scenario-btn:hover { border-color: var(--accent); background: var(--bg); }
+
+  .scenario-btn .s-label {
+    font-size: .65rem;
+    font-family: var(--mono);
+    letter-spacing: .08em;
+    color: var(--muted);
+    display: block;
+    margin-bottom: .3rem;
+  }
+
+  .scenario-btn .s-name {
+    font-size: .85rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .scenario-btn .s-desc {
+    font-size: .7rem;
+    color: var(--muted);
+    margin-top: .2rem;
+    font-family: var(--mono);
+  }
+
+  footer {
+    text-align: center;
+    font-size: .65rem;
+    font-family: var(--mono);
+    color: var(--muted);
+    letter-spacing: .05em;
+    padding: 2rem 0 1rem;
+    border-top: 1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>咖啡販賣機加盟<br>回本試算器</h1>
+  <p>調整參數，預測投資回收時間</p>
+</header>
+
+<div class="container">
+
+  <div style="margin-bottom:1rem;">
+    <div style="font-size:.7rem;font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem;">快速套用情境</div>
+    <div class="scenario-grid">
+      <button class="scenario-btn" onclick="applyScenario('base')">
+        <span class="s-label">情境 A</span>
+        <span class="s-name">加盟方估算</span>
+        <span class="s-desc">50杯／天，售價50元</span>
+      </button>
+      <button class="scenario-btn" onclick="applyScenario('conservative')">
+        <span class="s-label">情境 B</span>
+        <span class="s-name">保守估算</span>
+        <span class="s-desc">30杯／天，售價45元</span>
+      </button>
+      <button class="scenario-btn" onclick="applyScenario('optimistic')">
+        <span class="s-label">情境 C</span>
+        <span class="s-name">樂觀估算</span>
+        <span class="s-desc">70杯／天，售價55元</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="grid" style="margin-bottom:1.5rem;">
+    <div class="card">
+      <div class="card-title">投資成本</div>
+      <div class="slider-group">
+        <div class="slider-header">
+          <span class="slider-label">機器售價</span>
+          <span class="slider-value" id="v-machine">100 萬</span>
+        </div>
+        <input type="range" id="machine" min="80" max="200" step="5" value="100">
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">營收設定</div>
+      <div class="slider-group">
+        <div class="slider-header">
+          <span class="slider-label">每日杯數</span>
+          <span class="slider-value" id="v-cups">50 杯</span>
+        </div>
+        <input type="range" id="cups" min="10" max="150" step="5" value="50">
+      </div>
+      <div class="slider-group">
+        <div class="slider-header">
+          <span class="slider-label">平均售價</span>
+          <span class="slider-value" id="v-price">50 元</span>
+        </div>
+        <input type="range" id="price" min="30" max="80" step="5" value="50">
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">每月支出</div>
+      <div class="slider-group">
+        <div class="slider-header">
+          <span class="slider-label">每杯原料成本</span>
+          <span class="slider-value" id="v-cost">20 元</span>
+        </div>
+        <input type="range" id="cost" min="10" max="45" step="1" value="20">
+      </div>
+      <div class="slider-group">
+        <div class="slider-header">
+          <span class="slider-label">場地租金</span>
+          <span class="slider-value" id="v-rent">5,000 元</span>
+        </div>
+        <input type="range" id="rent" min="0" max="30000" step="500" value="5000">
+      </div>
+      <div class="slider-group">
+        <div class="slider-header">
+          <span class="slider-label">其他雜支</span>
+          <span class="slider-value" id="v-misc">2,000 元</span>
+        </div>
+        <input type="range" id="misc" min="0" max="20000" step="500" value="2000">
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">額外考量</div>
+      <div class="slider-group">
+        <div class="slider-header">
+          <span class="slider-label">維修車馬費（年次）</span>
+          <span class="slider-value" id="v-repair">0 次</span>
+        </div>
+        <input type="range" id="repair" min="0" max="12" step="1" value="0">
+      </div>
+      <div style="font-size:.7rem;font-family:var(--mono);color:var(--muted);margin-top:.3rem;">每次 $1,575，零件免費</div>
+    </div>
+  </div>
+
+  <div id="alert-margin" class="alert danger">⚠ 每杯成本 ≥ 售價，沒有獲利空間</div>
+  <div id="alert-payback" class="alert danger">⚠ 月淨利為負，永遠無法回本，請調整參數</div>
+  <div id="alert-good" class="alert good">✓ 財務狀況健康，預計可如期回本</div>
+
+  <div class="metrics">
+    <div class="metric">
+      <div class="m-label">每杯毛利</div>
+      <div class="m-value" id="m-margin">—</div>
+      <div class="m-sub">售價 − 原料成本</div>
+    </div>
+    <div class="metric">
+      <div class="m-label">月營收</div>
+      <div class="m-value" id="m-rev">—</div>
+      <div class="m-sub">杯數 × 30天 × 售價</div>
+    </div>
+    <div class="metric">
+      <div class="m-label">月淨利</div>
+      <div class="m-value" id="m-net">—</div>
+      <div class="m-sub">扣除所有月支出後</div>
+    </div>
+    <div class="metric highlight">
+      <div class="m-label">預計回本</div>
+      <div class="m-value" id="m-payback">—</div>
+      <div class="m-sub" id="m-payback-sub">—</div>
+    </div>
+  </div>
+
+  <div class="chart-wrap">
+    <div class="chart-title">
+      累積損益走勢
+      <div class="legend">
+        <span><i style="background:#3D2B1F;"></i>累積損益</span>
+        <span><i style="background:#8B2E2E;border-top:2px dashed #8B2E2E;height:0;"></i>回本線</span>
+      </div>
+    </div>
+    <div class="canvas-wrap">
+      <canvas id="chart" role="img" aria-label="累積損益走勢圖，顯示每月累積淨利與投資成本交叉的回本時間點"></canvas>
+    </div>
+  </div>
+
+  <footer>
+    本試算僅供參考，實際損益因地點、人流、市場狀況而異<br>
+    建議搭配實地勘查與現有加盟主訪談使用
+  </footer>
+</div>
+
+<script>
+const get = id => document.getElementById(id);
+let chart = null;
+
+const scenarios = {
+  base:         { machine: 100, cups: 50, price: 50, cost: 20, rent: 5000, misc: 2000, repair: 0 },
+  conservative: { machine: 100, cups: 30, price: 45, cost: 20, rent: 5000, misc: 2000, repair: 2 },
+  optimistic:   { machine: 100, cups: 70, price: 55, cost: 20, rent: 5000, misc: 2000, repair: 0 },
+};
+
+function applyScenario(key) {
+  const s = scenarios[key];
+  get('machine').value = s.machine;
+  get('cups').value = s.cups;
+  get('price').value = s.price;
+  get('cost').value = s.cost;
+  get('rent').value = s.rent;
+  get('misc').value = s.misc;
+  get('repair').value = s.repair;
+  calc();
+}
+
+function fmt(n) { return n.toLocaleString('zh-TW'); }
+
+function calc() {
+  const machine = +get('machine').value * 10000;
+  const cups    = +get('cups').value;
+  const price   = +get('price').value;
+  const cost    = +get('cost').value;
+  const rent    = +get('rent').value;
+  const misc    = +get('misc').value;
+  const repair  = +get('repair').value;
+
+  get('v-machine').textContent = get('machine').value + ' 萬';
+  get('v-cups').textContent    = cups + ' 杯';
+  get('v-price').textContent   = price + ' 元';
+  get('v-cost').textContent    = cost + ' 元';
+  get('v-rent').textContent    = fmt(rent) + ' 元';
+  get('v-misc').textContent    = fmt(misc) + ' 元';
+  get('v-repair').textContent  = repair + ' 次';
+
+  const margin    = price - cost;
+  const monthlyRev = cups * 30 * price;
+  const monthlyCost = cups * 30 * cost + rent + misc + (repair * 1575 / 12);
+  const monthlyNet = monthlyRev - monthlyCost;
+
+  get('m-margin').textContent = margin + ' 元';
+  get('m-rev').textContent    = Math.round(monthlyRev / 1000) + 'K';
+  get('m-net').textContent    = Math.round(monthlyNet / 1000) + 'K';
+
+  get('alert-margin').style.display  = margin <= 0 ? 'block' : 'none';
+  get('alert-payback').style.display = (monthlyNet <= 0 && margin > 0) ? 'block' : 'none';
+  get('alert-good').style.display    = monthlyNet > 0 ? 'block' : 'none';
+
+  let paybackMonths = null;
+  if (monthlyNet > 0) {
+    paybackMonths = Math.ceil(machine / monthlyNet);
+    const yrs = Math.floor(paybackMonths / 12);
+    const mo  = paybackMonths % 12;
+    get('m-payback').textContent     = yrs > 0 ? yrs + ' 年' + (mo ? mo + ' 月' : '') : mo + ' 個月';
+    get('m-payback-sub').textContent = paybackMonths + ' 個月後回本';
+  } else {
+    get('m-payback').textContent     = '無法回本';
+    get('m-payback-sub').textContent = '請調整參數';
+  }
+
+  // Chart
+  const months = Math.min(paybackMonths ? paybackMonths + 18 : 72, 96);
+  const labels = [];
+  const cumData = [];
+  const breakLine = [];
+  for (let m = 0; m <= months; m++) {
+    if (m % 6 === 0 || m === months) labels.push(m === 0 ? '開始' : m + '月');
+    else labels.push('');
+    cumData.push(Math.round((monthlyNet * m - machine) / 10000));
+    breakLine.push(0);
+  }
+
+  if (chart) chart.destroy();
+  chart = new Chart(get('chart'), {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: '累積損益（萬）',
+          data: cumData,
+          borderColor: '#3D2B1F',
+          backgroundColor: 'rgba(61,43,31,.07)',
+          fill: true,
+          borderWidth: 2,
+          pointRadius: 0,
+          tension: 0.3
+        },
+        {
+          label: '回本線',
+          data: breakLine,
+          borderColor: '#8B2E2E',
+          borderWidth: 1.5,
+          borderDash: [6, 4],
+          pointRadius: 0,
+          backgroundColor: 'transparent',
+          fill: false
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => ctx.datasetIndex === 0 ? '損益：' + ctx.parsed.y + ' 萬' : null
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { font: { size: 11, family: 'DM Mono' }, color: '#7A7060' },
+          grid:  { color: 'rgba(0,0,0,.05)' }
+        },
+        y: {
+          ticks: { font: { size: 11, family: 'DM Mono' }, color: '#7A7060', callback: v => v + '萬' },
+          grid:  { color: 'rgba(0,0,0,.05)' }
+        }
+      }
+    }
+  });
+}
+
+['machine','cups','price','cost','rent','misc','repair'].forEach(id => {
+  get(id).addEventListener('input', calc);
+});
+
+calc();
+</script>
+</body>
+</html>
