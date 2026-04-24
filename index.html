@@ -10,12 +10,12 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --bg: #F9EAAF;
+    --bg: #183B32;
     --surface: #FFFDF8;
     --border: #D4C070;
     --text: #1A1612;
-    --muted: #5A5030;
-    --accent: #183B32;
+    --muted: #8FAF9A;
+    --accent: #EDD66C;
     --green: #2C5F3A;
     --green-light: #EAF2EC;
     --red: #8B2E2E;
@@ -36,7 +36,7 @@
 
   header {
     background: var(--accent);
-    color: #EDD66C;
+    color: #183B32;
     padding: 2.5rem 2rem 2rem;
     position: relative;
     overflow: hidden;
@@ -173,7 +173,7 @@
     margin-bottom: .3rem;
   }
 
-  .metric.highlight .m-label { color: rgba(237,214,108,.55); }
+  .metric.highlight .m-label { color: rgba(24,59,50,.6); }
 
   .metric .m-value {
     font-size: 1.8rem;
@@ -183,7 +183,7 @@
     line-height: 1.1;
   }
 
-  .metric.highlight .m-value { color: #EDD66C; }
+  .metric.highlight .m-value { color: #183B32; }
 
   .metric .m-sub {
     font-size: .8rem;
@@ -192,7 +192,7 @@
     margin-top: .2rem;
   }
 
-  .metric.highlight .m-sub { color: rgba(237,214,108,.45); }
+  .metric.highlight .m-sub { color: rgba(24,59,50,.5); }
 
   .alert {
     border-radius: 8px;
@@ -437,7 +437,7 @@
     <div class="chart-title">
       累積損益走勢
       <div class="legend">
-        <span><i style="background:#183B32;"></i>累積損益</span>
+        <span><i style="background:#EDD66C;"></i>累積損益</span>
         <span><i style="background:#8B2E2E;border-top:2px dashed #8B2E2E;height:0;"></i>回本線</span>
       </div>
     </div>
@@ -539,8 +539,8 @@ function calc() {
         {
           label: '累積損益（萬）',
           data: cumData,
-          borderColor: '#183B32',
-          backgroundColor: 'rgba(24,59,50,.1)',
+          borderColor: '#EDD66C',
+          backgroundColor: 'rgba(237,214,108,.12)',
           fill: true,
           borderWidth: 2,
           pointRadius: 0,
@@ -571,12 +571,12 @@ function calc() {
       },
       scales: {
         x: {
-          ticks: { font: { size: 13, family: 'DM Mono' }, color: '#7A7060' },
-          grid:  { color: 'rgba(0,0,0,.05)' }
+          ticks: { font: { size: 13, family: 'DM Mono' }, color: '#8FAF9A' },
+          grid:  { color: 'rgba(255,255,255,.08)' }
         },
         y: {
-          ticks: { font: { size: 13, family: 'DM Mono' }, color: '#7A7060', callback: v => v + '萬' },
-          grid:  { color: 'rgba(0,0,0,.05)' }
+          ticks: { font: { size: 13, family: 'DM Mono' }, color: '#8FAF9A', callback: v => v + '萬' },
+          grid:  { color: 'rgba(255,255,255,.08)' }
         }
       }
     }
