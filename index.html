@@ -3,19 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>咖啡販賣機加盟 — 回本試算</title>
+<title>Touch Cafe 咖啡自動販賣機加盟 — 回本試算</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --bg: #F5F0E8;
+    --bg: #F9EAAF;
     --surface: #FFFDF8;
-    --border: #D6CCBA;
+    --border: #D4C070;
     --text: #1A1612;
-    --muted: #7A7060;
-    --accent: #3D2B1F;
+    --muted: #5A5030;
+    --accent: #183B32;
     --green: #2C5F3A;
     --green-light: #EAF2EC;
     --red: #8B2E2E;
@@ -36,7 +36,7 @@
 
   header {
     background: var(--accent);
-    color: #F5F0E8;
+    color: #EDD66C;
     padding: 2.5rem 2rem 2rem;
     position: relative;
     overflow: hidden;
@@ -54,7 +54,7 @@
   }
 
   header h1 {
-    font-size: clamp(1.3rem, 4vw, 1.8rem);
+    font-size: clamp(1.6rem, 5vw, 2.2rem);
     font-weight: 600;
     letter-spacing: .02em;
     line-height: 1.3;
@@ -62,7 +62,7 @@
 
   header p {
     margin-top: .5rem;
-    font-size: .85rem;
+    font-size: 1rem;
     opacity: .65;
     font-family: var(--mono);
   }
@@ -91,7 +91,7 @@
   }
 
   .card-title {
-    font-size: .7rem;
+    font-size: .85rem;
     font-family: var(--mono);
     letter-spacing: .12em;
     text-transform: uppercase;
@@ -111,13 +111,13 @@
   }
 
   .slider-label {
-    font-size: .8rem;
+    font-size: .95rem;
     color: var(--muted);
     font-family: var(--mono);
   }
 
   .slider-value {
-    font-size: .9rem;
+    font-size: 1.05rem;
     font-weight: 500;
     font-family: var(--mono);
     color: var(--accent);
@@ -165,7 +165,7 @@
   }
 
   .metric .m-label {
-    font-size: .65rem;
+    font-size: .8rem;
     font-family: var(--mono);
     letter-spacing: .1em;
     text-transform: uppercase;
@@ -173,31 +173,31 @@
     margin-bottom: .3rem;
   }
 
-  .metric.highlight .m-label { color: rgba(245,240,232,.55); }
+  .metric.highlight .m-label { color: rgba(237,214,108,.55); }
 
   .metric .m-value {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     font-weight: 600;
     color: var(--text);
     font-family: var(--mono);
     line-height: 1.1;
   }
 
-  .metric.highlight .m-value { color: #F5F0E8; }
+  .metric.highlight .m-value { color: #EDD66C; }
 
   .metric .m-sub {
-    font-size: .65rem;
+    font-size: .8rem;
     color: var(--muted);
     font-family: var(--mono);
     margin-top: .2rem;
   }
 
-  .metric.highlight .m-sub { color: rgba(245,240,232,.45); }
+  .metric.highlight .m-sub { color: rgba(237,214,108,.45); }
 
   .alert {
     border-radius: 8px;
     padding: .75rem 1rem;
-    font-size: .8rem;
+    font-size: .95rem;
     font-family: var(--mono);
     margin-bottom: 1rem;
     display: none;
@@ -216,7 +216,7 @@
   }
 
   .chart-title {
-    font-size: .7rem;
+    font-size: .85rem;
     font-family: var(--mono);
     letter-spacing: .12em;
     text-transform: uppercase;
@@ -232,7 +232,7 @@
   .legend {
     display: flex;
     gap: 1rem;
-    font-size: .65rem;
+    font-size: .8rem;
   }
 
   .legend span {
@@ -276,7 +276,7 @@
   .scenario-btn:hover { border-color: var(--accent); background: var(--bg); }
 
   .scenario-btn .s-label {
-    font-size: .65rem;
+    font-size: .8rem;
     font-family: var(--mono);
     letter-spacing: .08em;
     color: var(--muted);
@@ -285,13 +285,13 @@
   }
 
   .scenario-btn .s-name {
-    font-size: .85rem;
+    font-size: 1rem;
     font-weight: 600;
     color: var(--text);
   }
 
   .scenario-btn .s-desc {
-    font-size: .7rem;
+    font-size: .85rem;
     color: var(--muted);
     margin-top: .2rem;
     font-family: var(--mono);
@@ -299,7 +299,7 @@
 
   footer {
     text-align: center;
-    font-size: .65rem;
+    font-size: .8rem;
     font-family: var(--mono);
     color: var(--muted);
     letter-spacing: .05em;
@@ -311,18 +311,18 @@
 <body>
 
 <header>
-  <h1>咖啡販賣機加盟<br>回本試算器</h1>
+  <h1>Touch Cafe 咖啡自動販賣機加盟<br>回本試算器</h1>
   <p>調整參數，預測投資回收時間</p>
 </header>
 
 <div class="container">
 
   <div style="margin-bottom:1rem;">
-    <div style="font-size:.7rem;font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem;">快速套用情境</div>
+    <div style="font-size:.85rem;font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem;">快速套用情境</div>
     <div class="scenario-grid">
       <button class="scenario-btn" onclick="applyScenario('base')">
         <span class="s-label">情境 A</span>
-        <span class="s-name">加盟方估算</span>
+        <span class="s-name">加盟主估算</span>
         <span class="s-desc">50杯／天，售價50元</span>
       </button>
       <button class="scenario-btn" onclick="applyScenario('conservative')">
@@ -344,9 +344,9 @@
       <div class="slider-group">
         <div class="slider-header">
           <span class="slider-label">機器售價</span>
-          <span class="slider-value" id="v-machine">100 萬</span>
+          <span class="slider-value" id="v-machine">115 萬</span>
         </div>
-        <input type="range" id="machine" min="80" max="200" step="5" value="100">
+        <input type="range" id="machine" min="80" max="200" step="5" value="115">
       </div>
     </div>
 
@@ -380,9 +380,9 @@
       <div class="slider-group">
         <div class="slider-header">
           <span class="slider-label">場地租金</span>
-          <span class="slider-value" id="v-rent">5,000 元</span>
+          <span class="slider-value" id="v-rent">3,000 元</span>
         </div>
-        <input type="range" id="rent" min="0" max="30000" step="500" value="5000">
+        <input type="range" id="rent" min="0" max="30000" step="500" value="3000">
       </div>
       <div class="slider-group">
         <div class="slider-header">
@@ -402,7 +402,7 @@
         </div>
         <input type="range" id="repair" min="0" max="12" step="1" value="0">
       </div>
-      <div style="font-size:.7rem;font-family:var(--mono);color:var(--muted);margin-top:.3rem;">每次 $1,575，零件免費</div>
+      <div style="font-size:.85rem;font-family:var(--mono);color:var(--muted);margin-top:.3rem;">每次 $1,575，零件免費</div>
     </div>
   </div>
 
@@ -437,7 +437,7 @@
     <div class="chart-title">
       累積損益走勢
       <div class="legend">
-        <span><i style="background:#3D2B1F;"></i>累積損益</span>
+        <span><i style="background:#183B32;"></i>累積損益</span>
         <span><i style="background:#8B2E2E;border-top:2px dashed #8B2E2E;height:0;"></i>回本線</span>
       </div>
     </div>
@@ -457,9 +457,9 @@ const get = id => document.getElementById(id);
 let chart = null;
 
 const scenarios = {
-  base:         { machine: 100, cups: 50, price: 50, cost: 20, rent: 5000, misc: 2000, repair: 0 },
-  conservative: { machine: 100, cups: 30, price: 45, cost: 20, rent: 5000, misc: 2000, repair: 2 },
-  optimistic:   { machine: 100, cups: 70, price: 55, cost: 20, rent: 5000, misc: 2000, repair: 0 },
+  base:         { machine: 115, cups: 50, price: 50, cost: 20, rent: 3000, misc: 2000, repair: 0 },
+  conservative: { machine: 115, cups: 30, price: 45, cost: 20, rent: 3000, misc: 2000, repair: 2 },
+  optimistic:   { machine: 115, cups: 70, price: 55, cost: 20, rent: 3000, misc: 2000, repair: 0 },
 };
 
 function applyScenario(key) {
@@ -539,8 +539,8 @@ function calc() {
         {
           label: '累積損益（萬）',
           data: cumData,
-          borderColor: '#3D2B1F',
-          backgroundColor: 'rgba(61,43,31,.07)',
+          borderColor: '#183B32',
+          backgroundColor: 'rgba(24,59,50,.1)',
           fill: true,
           borderWidth: 2,
           pointRadius: 0,
@@ -571,11 +571,11 @@ function calc() {
       },
       scales: {
         x: {
-          ticks: { font: { size: 11, family: 'DM Mono' }, color: '#7A7060' },
+          ticks: { font: { size: 13, family: 'DM Mono' }, color: '#7A7060' },
           grid:  { color: 'rgba(0,0,0,.05)' }
         },
         y: {
-          ticks: { font: { size: 11, family: 'DM Mono' }, color: '#7A7060', callback: v => v + '萬' },
+          ticks: { font: { size: 13, family: 'DM Mono' }, color: '#7A7060', callback: v => v + '萬' },
           grid:  { color: 'rgba(0,0,0,.05)' }
         }
       }
